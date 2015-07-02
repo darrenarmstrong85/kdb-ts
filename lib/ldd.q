@@ -7,4 +7,5 @@
 start:`ts 2:(`start;1)
 stop:`ts 2:(`stop;1)
 
+private.getnext:`ts 2:(`getnext;1);
 private.setnext:`ts 2:(`setnext;1);
