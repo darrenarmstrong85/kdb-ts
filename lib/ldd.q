@@ -1,5 +1,6 @@
-{ if[-11h<>type k:key `$hsym .utl.PKGLOADING,"/ts.so";
-     / build it and they will come
+{ if[-11h<>type key sopath:`$hsym .utl.PKGLOADING,"/ts.so";
+     if[-11h<>type key cpath:`$hsym .utl.PKGLOADING,"/ts.c"; '"could not load or build ts.so"];
+	 / build it and they will come#
      ];
   }[];
 
