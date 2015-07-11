@@ -1,10 +1,12 @@
-{ if[-11h<>type key sopath:hsym`$.utl.PKGLOADING,"/ts.so";
-     if[-11h<>type key cpath:hsym`$.utl.PKGLOADING,"/ts.c"; '"could not load or build ts.so"];
-	 / build it and they will come#
+localpath:first ` vs .utl.FILELOADING;
+
+{ if[-11h<>type key sopath:hsym`$string[localpath],"/ts.so";
+     if[any -11h<>type each key each cpath:hsym`$string[localpath],/: ("/ts.c";"/Makefile"); '"could not load or build ts.so"];
+     show system "make"
      ];
   }[];
 
-libpath:"/" sv (system"cd";"ts");
+libpath:` sv (localpath;`ts);
 
 start:libpath 2:(`start;1)
 stop:libpath 2:(`stop;1)
