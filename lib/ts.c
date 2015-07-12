@@ -22,6 +22,8 @@ extern "C" {
 	}
 
 	K setnext (K dummy) {
+		if(not timerfd) return krr((S)"Timer not started");
+
 		return (K) 0;
 	}
 
