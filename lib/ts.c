@@ -10,14 +10,14 @@ extern "C" {
 			timerfd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 		}
 
-		return (K) 0;
+		return ki(timerfd);
 	}
 
 	K stop(K dummy) {
 		if(not timerfd) {
 			close(timerfd);
 		}
-		return (K) 0;
+		return ki(timerfd);
 	}
 
 	K setnext (K dummy) {
