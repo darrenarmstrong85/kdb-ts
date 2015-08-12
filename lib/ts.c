@@ -9,18 +9,15 @@ int timerfd=0;
 K callback(int fd) {
 	uint64_t num_expirations = 0;
 	ssize_t num_read = 0;
-	while((num_read = read(timerfd, &num_expirations, sizeof(uint64_t))) != -1) {
+	while((num_read = read(timerfd, &num_expirations, sizeof(uint64_t))) != -1)
 		k(0, (S)".ts.private.callback", kj(num_expirations), (K)0);
-	}
 
 	return ki(0);
 }
 
 extern "C" {
 	K start(K dummy) {
-		if(timerfd) {
-			return krr((S) "alreadystarted");
-		}
+		if(timerfd)	return krr((S) "alreadystarted");
 
 		timerfd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 		sd1(timerfd, &callback);
@@ -28,9 +25,7 @@ extern "C" {
 	}
 
 	K stop(K dummy) {
-		if(not timerfd) {
-			return krr((S) "notstarted");
-		}
+		if(not timerfd)	return krr((S) "notstarted");
 
 		callback(timerfd);
 		close(timerfd);
@@ -41,9 +36,10 @@ extern "C" {
 		if(not timerfd) return ktj(-KN,nj);
 
 		struct itimerspec spec;
-		if(timerfd_gettime(timerfd, &spec) != 0) {
-			std::cout << "ts:getnext:error: " << strerror(errno) << std::endl;
-		}
+		if(timerfd_gettime(timerfd, &spec) != 0)
+			return krr(
+				(S) std::string("ts:getnext:error: " + std::string(strerror(errno))).c_str()
+				);
 
 		J ns = 0;
 		ns += spec.it_value.tv_sec*(J)1e9;
@@ -56,18 +52,13 @@ extern "C" {
 		if(not timerfd) return krr((S)"notstarted");
 
 		itimerspec newtimer;
-		itimerspec oldtimer;
-
 		newtimer.it_interval.tv_sec = 0;
 		newtimer.it_interval.tv_nsec = 0;
 		newtimer.it_value.tv_sec = (nexttime->j) / (J)1e9;
 		newtimer.it_value.tv_nsec = nexttime->j%(J)1e9;
 
-		std::cout << newtimer.it_value.tv_nsec << " " << newtimer.it_value.tv_sec << std::endl;
-
-		if(timerfd_settime(timerfd, 0, &newtimer, &oldtimer) != 0) {
+		if(timerfd_settime(timerfd, 0, &newtimer, nullptr) != 0)
 			std::cout << "ts:setnext:error: " << strerror(errno) << std::endl;
-		}
 
 		return getnext((K) 0);
 	}
