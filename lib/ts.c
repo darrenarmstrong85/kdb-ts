@@ -6,11 +6,6 @@
 
 int timerfd=0;
 
-// from code.kx.com
-I up(J f){return (f/8.64e13+10957)*8.64e4;}  // unix from kdb+ timestamp
-J pu(I u){return 8.64e13*(u/8.64e4-10957);}  // kdb+ timestamp from unix
-
-
 K callback(int fd) {
 	uint64_t num_expirations = 0;
 	ssize_t num_read = 0;
