@@ -11,13 +11,15 @@
 
 \d .ts
 
-start[];
+start[".ts.private.callback"];
 
 0N!(`setevent;)private.setnext {0N!(`nextevent;.z.p;x);x}.z.p+00:00:01;
 
 0N!(`retrievedevent;)private.getnext[];
 
 -1 "end script";
+
+\d .
 
 \
 cbk:libpath 2:(`callback;1);

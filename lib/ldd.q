@@ -8,8 +8,9 @@ localpath:first ` vs .utl.FILELOADING;
 
 libpath:` sv (localpath;`ts);
 
-start:libpath 2:(`start;1)
-stop:libpath 2:(`stop;1)
+start:libpath 2:(`start;1);
+stop:libpath 2:(`stop;1);
+is_set:libpath 2:(`is_timer_set;1);
 
 private.getnext:libpath 2:(`getnext;1);
 private.set:libpath 2:(`setnext;1);

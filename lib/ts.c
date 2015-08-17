@@ -5,19 +5,24 @@
 #include <string.h>
 
 int timerfd=0;
+char * fn_callback;
 
 K callback(int fd) {
 	uint64_t num_expirations = 0;
 	ssize_t num_read = 0;
-	while((num_read = read(timerfd, &num_expirations, sizeof(uint64_t))) != -1)
-		k(0, (S)".ts.private.callback", kj(num_expirations), (K)0);
+	if((num_read = read(timerfd, &num_expirations, sizeof(uint64_t))) != -1)
+		k(0, fn_callback, kj(num_expirations), (K)0);
 
 	return ki(0);
 }
 
 extern "C" {
-	K start(K dummy) {
+	K start(K cbk) {
 		if(timerfd)	return krr((S) "alreadystarted");
+		if(cbk->t != 10) return krr((S) "badcallback");
+
+		fn_callback = static_cast<char *>( calloc(cbk->n+1, sizeof(char)) );
+		memcpy(fn_callback, cbk->G0, cbk->n);
 
 		timerfd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
 		sd1(timerfd, &callback);
@@ -25,11 +30,15 @@ extern "C" {
 	}
 
 	K stop(K dummy) {
+		int fd = timerfd;
 		if(not timerfd)	return krr((S) "notstarted");
 
-		callback(timerfd);
+		sd0(timerfd);
 		close(timerfd);
-		return ki(timerfd);
+		timerfd=0;
+		fn_callback = static_cast<char *>( calloc(1, sizeof(char)) );
+
+		return ki(fd);
 	}
 
 	K getnext (K dummy) {
@@ -62,6 +71,11 @@ extern "C" {
 
 		return getnext((K) 0);
 	}
+
+	K is_timer_set(K dummy) {
+		return kb(timerfd == 0);
+	}
+
 	K cbk(K dummy) {
 		if(timerfd) callback(timerfd);
 	}
