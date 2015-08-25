@@ -73,7 +73,7 @@ extern "C" {
 	}
 
 	K is_timer_set(K dummy) {
-		return kb(timerfd == 0);
+		return kb(timerfd != 0);
 	}
 
 	K cbk(K dummy) {
