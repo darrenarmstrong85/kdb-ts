@@ -28,6 +28,8 @@ add:{[f;t;opts]
   id
   }
 
+remove:{ delete from `.ts.private.events where id in x }
+
 pending:{select from private.events where at<=x}
 
 private.callback:{[numevents]
