@@ -15,9 +15,4 @@ is_set:libpath 2:(`is_timer_set;1);
 private.getnext:libpath 2:(`getnext;1);
 private.set:libpath 2:(`setnext;1);
 
-private.setnext:{[p]
-  0N!(`setnext;) t:p-.z.p;
-  private.set t
-  }
-
 private.callback:{[dummy] 0N!(`callback;.z.p;dummy) };
