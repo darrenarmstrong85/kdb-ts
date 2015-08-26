@@ -8,16 +8,23 @@ private.events:([id:enlist 0Ng] at:enlist 0Wp; interval:enlist 0.n; func:enlist 
 
 defaults.add: `interval`func # private.events 0Ng;
 
+private.setnext:{[]
+  now:.z.p;
+  one_ns:`timespan$1;
+  p: one_ns | min[private.events[;`at]]-now;
+  if[not is_set[]; start ".ts.private.callback" ];
+  private.set p;
+  }
+
 add:{[f;t;opts]
   d:defaults.add;
   if[ type[opts]=99h; d,:inter[key opts;key defaults.add]#opts ];
   tp: $[ type[t] in (-16h-19h); `timestamp$.z.d+t; t];
 
   d[`id`func`at]:(id:rand 0Ng;f;tp);
-  private.events,:d;
 
-  if[not is_set[]; start ".ts.private.callback" ];
-  private.setnext min private.events[;`at];
+  private.events,:d;
+  private.setnext[];
   id
   }
 
