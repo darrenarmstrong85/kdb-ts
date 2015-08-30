@@ -14,8 +14,6 @@ func:{[t;id]
   }
 
 .ts.add[func;.z.p;] enlist[`interval]!enlist 00:00:05n;
+.ts.add[{[x;y] 0N!(`.ts.private.events;) .ts.private.events};.z.p;] enlist[`interval]!enlist 00:00:01n;
 -1 "end script";
 
-.z.ts:0N!
-
-\t 1000

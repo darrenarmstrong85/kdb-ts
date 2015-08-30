@@ -1,8 +1,13 @@
 \d .ts
 
-.utl.require .utl.PKGLOADING,"/ldd.q"
+.utl.require "qutil/opts.q";
 
 PKGNAME: .utl.PKGLOADING
+
+.utl.addOpt["usetick";0b;`.ts.tickless];
+.utl.parseArgs[];
+
+.utl.require .utl.PKGLOADING,"/ldd.q"
 
 private.events:([id:enlist 0Ng] at:enlist 0Wp; interval:enlist 0.n; func:enlist (::) )
 
