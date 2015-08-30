@@ -43,7 +43,7 @@ private.callback:{[numevents]
   fire:{[f;at;id] .[f;(at;id);{}]; };
 
   exec fire'[func;at;id] from private.events where at<=tstart;
-  update at:at+interval from `.ts.private.events where interval<>0.n;
+  update at:at+interval from `.ts.private.events where at<=tstart, interval<>0.n;
   delete from `.ts.private.events where at<=tstart, interval=0.n;
 
   .z.s[numevents];
