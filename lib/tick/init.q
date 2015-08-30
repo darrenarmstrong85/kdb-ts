@@ -4,8 +4,7 @@ nextevent:0Wp;
 
 private.set:{nextevent::.z.p+x}
 
-start:{[f] cb::f;}
+start:{[f] cb::f; system"t 1"}
+stop:{ cb::""; system"t 0"}
 
 .z.ts:{if[nextevent<=x;get[cb][]]}
-
-\t 1
