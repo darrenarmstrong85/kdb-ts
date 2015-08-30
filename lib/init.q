@@ -1,8 +1,13 @@
 \d .ts
 
-.utl.require .utl.PKGLOADING,"/ldd.q"
+.utl.require "qutil/opts.q";
 
 PKGNAME: .utl.PKGLOADING
+
+.utl.addOpt["usetick";0b;`.ts.tickless];
+.utl.parseArgs[];
+
+.utl.require .utl.PKGLOADING,"/ldd.q"
 
 private.events:([id:enlist 0Ng] at:enlist 0Wp; interval:enlist 0.n; func:enlist (::) )
 
@@ -38,7 +43,7 @@ private.callback:{[numevents]
   fire:{[f;at;id] .[f;(at;id);{}]; };
 
   exec fire'[func;at;id] from private.events where at<=tstart;
-  update at:at+interval from `.ts.private.events where interval<>0.n;
+  update at:at+interval from `.ts.private.events where at<=tstart, interval<>0.n;
   delete from `.ts.private.events where at<=tstart, interval=0.n;
 
   .z.s[numevents];
