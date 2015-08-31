@@ -33,6 +33,8 @@ add:{[f;t;opts]
   id
   }
 
+getrow:{if[not x in key private.events;'notfound]; private.events[x] }
+
 remove:{ delete from `.ts.private.events where id in x }
 
 pending:{select from private.events where at<=x}
