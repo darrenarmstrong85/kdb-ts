@@ -2,7 +2,7 @@ cb:""
 is_set:{0<>count cb}
 nextevent:0Wp;
 
-private.set:{system "t ", string `int$`time$`timespan$1e6*ceiling x%1e6}
+private.set:{system "t ", string 1|`int$`time$x}
 start:{[f] cb::f;}
 stop:{ cb::"";}
 
