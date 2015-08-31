@@ -14,6 +14,9 @@ func:{[t;id]
   }
 
 .ts.add[func;.z.p;] enlist[`interval]!enlist 00:00:05n;
-.ts.add[{[x;y] 0N!(`.ts.private.events;) .ts.private.events};.z.p;] enlist[`interval]!enlist 00:00:01n;
+
+.ts.add[{[x;y] t:.ts.getrow[y][`at]; 0N!(.z.p;t;%[;1e6]`long$.z.p-t)};.z.p;]
+   enlist[`interval]!enlist 00:00:01n;
+
 -1 "end script";
 
