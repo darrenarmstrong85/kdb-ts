@@ -1,10 +1,9 @@
 cb:""
-is_set:{all 0<>(count cb;system"t")}
+is_set:{0<>count cb}
 nextevent:0Wp;
 
-private.set:{nextevent::.z.p+x}
+private.set:{system "t ", string 1|`int$`time$x}
+start:{[f] cb::f;}
+stop:{ cb::"";}
 
-start:{[f] cb::f; system"t 1"}
-stop:{ cb::""; system"t 0"}
-
-.z.ts:{if[nextevent<=x;get[cb][]]}
+.z.ts:{get[cb][]; private.setnext[]}
