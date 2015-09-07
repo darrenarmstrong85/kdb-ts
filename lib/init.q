@@ -24,7 +24,7 @@ private.setnext:{[]
 add:{[f;t;opts]
   d:defaults.add;
   if[ type[opts]=99h; d,:inter[key opts;key defaults.add]#opts ];
-  tp: $[ type[t] in (-16h-19h); `timestamp$.z.d+t; t];
+  tp: $[ type[t] in (-16h;-19h); `timestamp$.z.d+t; t];
 
   d[`id`func`at]:(id:rand 0Ng;f;tp);
 
