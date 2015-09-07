@@ -38,16 +38,16 @@ getrow:{if[not x in key private.events;'notfound]; private.events[x] }
 
 remove:{ delete from `.ts.private.events where id in x }
 
-pending:{select from private.events where at<=x}
+pending:{ exec `u#id from private.events where at<=x }
 
 private.callback:{[numevents]
   if[0=count ids:pending tstart:.z.p; :0];
 
   fire:{[f;at;id] stats[`lag]+:.z.p-at; @[eval;f,(at;id);{}]; };
 
-  exec fire'[func;at;id] from private.events where at<=tstart;
-  update at:at+interval from `.ts.private.events where at<=tstart, interval<>0.n;
-  delete from `.ts.private.events where at<=tstart, interval=0.n;
+  exec fire'[func;at;id] from private.events where id in ids;
+  update at:at+interval from `.ts.private.events where id in ids, interval<>0.n;
+  delete from `.ts.private.events where id in ids, interval=0.n;
   stats[`eventcalls]+:count ids;
 
   .z.s[numevents];
