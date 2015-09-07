@@ -18,5 +18,9 @@ func:{[t;id]
 .ts.add[{[x;y] t:.ts.getrow[y][`at]; 0N!(.z.p;t;%[;1e6]`long$.z.p-t)};.z.p;]
    enlist[`interval]!enlist 00:00:01n;
 
+delayedEval:{[p;t;id] 0N!(`delayedEval;p) }
+
+.ts.add[(`delayedEval;(rand;0Ng));.z.p;] enlist[`interval]!enlist 00:00:01n;
+
 -1 "end script";
 
