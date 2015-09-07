@@ -42,7 +42,7 @@ pending:{select from private.events where at<=x}
 private.callback:{[numevents]
   if[0=count pending tstart:.z.p; :0];
 
-  fire:{[f;at;id] .[f;(at;id);{}]; };
+  fire:{[f;at;id] @[eval;f,(at;id);{}]; };
 
   exec fire'[func;at;id] from private.events where at<=tstart;
   update at:at+interval from `.ts.private.events where at<=tstart, interval<>0.n;
