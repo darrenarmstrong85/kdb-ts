@@ -22,5 +22,13 @@ delayedEval:{[p;t;id] 0N!(`delayedEval;p) }
 
 .ts.add[(`delayedEval;(rand;0Ng));.z.p;] enlist[`interval]!enlist 00:00:01n;
 
+.ts.add[;.z.p;enlist[`interval]!enlist 00:00:05n]
+   {[t;id] if[.ts.stats[`eventcalls]>10; exit 0] }
+
+.z.exit:{
+   .ts.stats[`avglag]:`timespan$.ts.stats[`lag]%.ts.stats[`eventcalls];
+   show .ts.stats;
+   }
+
 -1 "end script";
 

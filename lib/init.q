@@ -9,6 +9,7 @@ PKGNAME: .utl.PKGLOADING
 
 .utl.require .utl.PKGLOADING,"/ldd.q"
 
+stats:`eventcalls`lag!(0;0.n);
 private.events:([id:enlist 0Ng] at:enlist 0Wp; interval:enlist 0.n; func:enlist (::) )
 
 defaults.add: `interval`func # private.events 0Ng;
@@ -40,13 +41,14 @@ remove:{ delete from `.ts.private.events where id in x }
 pending:{select from private.events where at<=x}
 
 private.callback:{[numevents]
-  if[0=count pending tstart:.z.p; :0];
+  if[0=count ids:pending tstart:.z.p; :0];
 
-  fire:{[f;at;id] @[eval;f,(at;id);{}]; };
+  fire:{[f;at;id] stats[`lag]+:.z.p-at; @[eval;f,(at;id);{}]; };
 
   exec fire'[func;at;id] from private.events where at<=tstart;
   update at:at+interval from `.ts.private.events where at<=tstart, interval<>0.n;
   delete from `.ts.private.events where at<=tstart, interval=0.n;
+  stats[`eventcalls]+:count ids;
 
   .z.s[numevents];
   private.setnext min private.events[;`at]
