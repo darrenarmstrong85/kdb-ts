@@ -38,7 +38,7 @@ getrow:{if[not x in key private.events;'notfound]; private.events[x] }
 
 remove:{ delete from `.ts.private.events where id in x }
 
-pending:{ exec `u#id from private.events where at<=x }
+pending:{ exec id from private.events where at<=x }
 
 private.callback:{[numevents]
   if[0=count ids:pending tstart:.z.p; :0];
